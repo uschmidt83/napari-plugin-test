@@ -1,4 +1,4 @@
-name: deploy
+name: deploy version ${{ github.ref_name }}
 
 on:
   release:
@@ -24,9 +24,10 @@ jobs:
         run: |
           python -m build .
 
-      - name: Check that git tag and version match
+      - name: Check that package version matches git tag ${{ github.ref_name }}
         shell: bash
         run: |
+          ls -l dist
           test -f "dist/napari-plugin-test-${{ github.ref_name }}.tar.gz"
           test -f "dist/napari_plugin_test-${{ github.ref_name }}-py3-none-any.whl"
 
