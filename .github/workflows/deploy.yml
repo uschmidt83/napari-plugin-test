@@ -39,7 +39,7 @@ jobs:
       - name: Check version
         shell: bash
         run: |
-          test -f "napari-plugin-test-${{ github.ref_name }}.tar.gz"
+          test -f "dist/napari-plugin-test-${{ github.ref_name }}.tar.gz"
           # ls -l dist
           # (exit 1)
 
