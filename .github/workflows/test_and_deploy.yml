@@ -22,8 +22,10 @@ jobs:
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.8', '3.9', '3.10']
+        # platform: [ubuntu-latest, windows-latest, macos-latest]
+        # python-version: ['3.8', '3.9', '3.10']
+        platform: [ubuntu-latest]
+        python-version: ['3.9']
 
     steps:
       - uses: actions/checkout@v2
@@ -51,18 +53,10 @@ jobs:
       - name: Test with pytest
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: pytest -v --color=yes
+          run: pytest -v --color=yes --cov=napari_plugin_test --cov-report=xml
 
-      # # this runs the platform-specific tests declared in tox.ini
-      # - name: Test with tox
-      #   uses: GabrielBB/xvfb-action@v1
-      #   with:
-      #     run: python -m tox
-      #   env:
-      #     PLATFORM: ${{ matrix.platform }}
-
-      # - name: Coverage
-      #   uses: codecov/codecov-action@v2
+      - name: Coverage
+        uses: codecov/codecov-action@v2
 
   # deploy:
   #   # this will run when you have tagged a commit, starting with "v*"
