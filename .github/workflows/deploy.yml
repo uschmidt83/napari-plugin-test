@@ -8,12 +8,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: foo
-        shell: bash
-        run: |
-          echo ${{ github.ref_name }}
-          ls -l dist
-          (exit 1)
+      # - name: foo
+      #   shell: bash
+      #   run: |
+      #     echo ${{ github.ref_name }}
+      #     ls -l dist
+      #     (exit 1)
 
 
       - uses: actions/checkout@v2
