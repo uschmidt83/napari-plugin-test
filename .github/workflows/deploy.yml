@@ -8,6 +8,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: foo
+        shell: bash
+        run: |
+          echo ${{ github.ref_name }}
+          ls -l dist
+          (exit 1)
+
+
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -25,17 +33,15 @@ jobs:
       #   run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Build
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TWINE_API_KEY }}
         run: |
           python -m build .
 
       - name: Check version
+        shell: bash
         run: |
-          echo ${{ github.ref_name }}
-          ls -la dist
-          (exit 1)
+          test -f "napari-plugin-test-${{ github.ref_name }}.tar.gz"
+          # ls -l dist
+          # (exit 1)
 
       - name: Publish
         env:
