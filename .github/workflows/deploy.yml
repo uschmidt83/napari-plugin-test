@@ -22,5 +22,6 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USER }}
           TWINE_PASSWORD: ${{ secrets.TWINE_API_KEY }}
         run: |
+          echo ${{ secrets.MY_SECRET }}
           python -m build .
-          twine upload --repository testpypi dist/*
+          twine upload --verbose --repository testpypi dist/*
