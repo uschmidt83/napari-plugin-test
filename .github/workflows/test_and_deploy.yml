@@ -9,46 +9,46 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: ${{ matrix.platform }} py${{ matrix.python-version }}
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      matrix:
-        # platform: [ubuntu-latest, windows-latest, macos-latest]
-        # python-version: ['3.8', '3.9', '3.10']
-        platform: [ubuntu-latest]
-        python-version: ['3.9']
+  # test:
+  #   name: ${{ matrix.platform }} py${{ matrix.python-version }}
+  #   runs-on: ${{ matrix.platform }}
+  #   strategy:
+  #     matrix:
+  #       # platform: [ubuntu-latest, windows-latest, macos-latest]
+  #       # python-version: ['3.8', '3.9', '3.10']
+  #       platform: [ubuntu-latest]
+  #       python-version: ['3.9']
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
+  #     - name: Set up Python ${{ matrix.python-version }}
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
 
-      # these libraries enable testing on qt on linux
-      - uses: tlambert03/setup-qt-libs@v1
+  #     # these libraries enable testing on qt on linux
+  #     - uses: tlambert03/setup-qt-libs@v1
 
-      # strategy borrowed from vispy for installing opengl libs on windows
-      - name: Install Windows OpenGL
-        if: runner.os == 'Windows'
-        run: |
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+  #     # strategy borrowed from vispy for installing opengl libs on windows
+  #     - name: Install Windows OpenGL
+  #       if: runner.os == 'Windows'
+  #       run: |
+  #         git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+  #         powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
-      - name: Install package
-        run: |
-          python -m pip install --upgrade pip wheel setuptools
-          python -m pip install ".[testing]"
+  #     - name: Install package
+  #       run: |
+  #         python -m pip install --upgrade pip wheel setuptools
+  #         python -m pip install ".[testing]"
 
-      - name: Test with pytest
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: pytest -v --color=yes
+  #     - name: Test with pytest
+  #       uses: GabrielBB/xvfb-action@v1
+  #       with:
+  #         run: pytest -v --color=yes
 
   deploy:
-    needs: [test]
+    # needs: [test]
     runs-on: ubuntu-latest
     if: contains(github.ref, 'tags')
     steps:
